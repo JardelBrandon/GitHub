@@ -1,0 +1,37 @@
+link: https://gist.github.com/nepsilon/156387acf9e1e72d48fa35c4fabef0b4
+
+
+Como alterar suas mensagens de confirmação no Git?
+
+Em algum momento, você se encontrará em uma situação em que você precisa editar uma mensagem de confirmação. Esse compromisso já pode ser empurrado ou não, seja o mais recente ou enterrado abaixo de 10 outros cometidos, mas não tenha medo, git tem suas costas??.
+
+Não empurrado + compromisso mais recente:
+
+git commit - amend
+Isso abrirá o seu $EDITORe permitirá que você altere a mensagem. Continue com o seu habitual git push origin master.
+
+Já empurrou + compromisso mais recente:
+
+git commit - amend
+git push original master --force
+Editamos a mensagem como acima. Mas precisa --forcedo empurrar para atualizar o histórico remoto.
+
+?? Mas! Forçar empurrando seu compromisso depois de mudá-lo, provavelmente impedirá que outros se sincronizem com o repo, se eles já tiraram uma cópia. Você deve verificar primeiro com eles.
+
+Não empurrado + antigo commit:
+
+git rebase -i HEAD ~ X
+ # X é o número de compromissos para voltar 
+# Mover para a linha de seu commit, alterar escolher em editar, 
+e depois alterar sua mensagem de confirmação:
+git commit - amend
+# Conclua o rebase com: 
+git rebase --continue
+O Rebase abriu seu histórico e permite que você escolha o que mudar. Com a edição, você diz que deseja alterar a mensagem. Git o leva a um novo ramo para permitir que você - ameje a mensagem. git rebase --continuar o coloca em seu ramo anterior com a mensagem mudada.
+
+Já empurrou + antigo commit:
+
+Editar a sua mensagem com o mesmo processo de 3 etapas como acima ( rebase -i, commit --amend, rebase --continue). Em seguida, force aperte o commit:
+
+git push original master --force
+?? Mas! Lembre-se de re-empurrar seu commit depois de mudar, provavelmente irá impedir que outros se sincronizem com o repo, se eles já tiraram uma cópia. Você deve verificar primeiro com eles.
